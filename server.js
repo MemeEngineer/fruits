@@ -18,8 +18,14 @@ next();
 //parse and add the incoming data to a req.body object
 app.use(express.urlencoded({extended:false})); //middleware
 
+
+// ============   Routes
+app.get('/', (req, res) => {
+    res.send('working')
+});
+
 /**
- * @path /fruits
+ * @path /fruits/
  * @Method GET
  * @description returns a list of fruits & veggies
  */
