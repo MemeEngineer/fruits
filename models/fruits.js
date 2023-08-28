@@ -35,5 +35,5 @@ const vegs = [
 ];    
 
 //at the bottom of /models/fruits.js
-module.exports = {fruits, vegs};
+module.exports = {fruits};
 
