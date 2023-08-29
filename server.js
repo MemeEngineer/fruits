@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const {fruits} = require('./models/fruits.js'); //NOTE: it must start with ./ if it's just a file, not an NPM package
 const {vegs} = require('./models/vegetables.js')
 const Fruit = require('./models/fruit');
+const Veg = require('./models/vegetable')
 
 // App Config
 app.set('view engine', 'jsx');
@@ -41,10 +42,12 @@ app.get('/fruits/', async (req, res) => {
         fruits: fruitsFromDB
     })
 });
-app.get('/vegs/', (req, res) => {
+app.get('/vegs/', async (req, res) => {
     // res.send(vegs);
+    const vegsFromDB = await Veg.find({})
+    console.log(vegsFromDB)
     res.render('vegetables/Index', {
-        vegs: vegs
+        vegs: vegsFromDB
     })
 });
 
@@ -91,15 +94,22 @@ app.post('/fruits', async(req, res)=> {
     }
 })
 
-app.post('/vegs', (req, res)=> {
+app.post('/vegs', async (req, res)=> {
     if(req.body.readyToEat === 'on'){ //if checked, req.body.readyToEat is set to 'on'
         req.body.readyToEat = true; //do some data correction
     } else { //if not checked, req.body.readyToEat is undefined
         req.body.readyToEat = false; //do some data correction
     }
-    vegs.push(req.body);
-    console.log(vegs);
-    res.redirect('/vegs');
+    // create a new veg in db
+    try {
+        const createdVeg = await Veg.create(req.body);
+        console.log(createdVeg);
+        res.redirect('/vegs');
+
+    } catch (error) {
+        console.log(error);
+        // res.json({error});
+    }
 })
 
 /**
@@ -121,11 +131,13 @@ app.get('/fruits/:id', async (req, res) => {
     })
 });
 
-app.get('/vegs/:indexOfVegsArray', (req, res) => {
-    const {indexOfVegsArray} = req.params
+app.get('/vegs/:id', async(req, res) => {
+    const {id} = req.params
     
+    const veg = await Veg.findById(id);
+    console.log('Found veg ->', veg);
     res.render('vegetables/Show',{
-        veg: vegs[indexOfVegsArray]
+        veg: veg
     })
 });
 

@@ -12,9 +12,9 @@ function Index(props){
             <ul>
                 {vegs.map((veg,i) => {
                     return(
-                        <li key={i}>
+                        <li key={veg._id}>
                             The
-                            <a href={`/vegs/${i}`}> {veg.name}</a> {''}
+                            <a href={`/vegs/${veg._id}`}> {veg.name}</a> {''}
                             is {veg.color} <br/> {veg.readyToEat ? ' It is ready to eat' : " It is not ready to eat"}
                             <br/>
                         </li>
