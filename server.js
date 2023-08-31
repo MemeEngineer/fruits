@@ -67,7 +67,7 @@ app.get('/vegs/new', (req, res) => {
 })
 
 /**
-@path /fruits/new
+@path /fruits
 @method POST
 @action create
 @description create a new fruit and redirect the user
